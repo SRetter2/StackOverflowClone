@@ -1,0 +1,56 @@
+﻿@using StackOverflowClone.Data
+@model QuestionViewModel
+
+<div class="row">
+    <h2>@Model.Question.Title</h2>
+    <br />
+    <h3>@Model.Question.Text</h3>
+    <br />
+    <ul>
+        @foreach (QuestionTag tag in Model.Question.QuestionTags)
+        {
+            <li>@tag.Tag.Name</li>
+        }
+    </ul>
+    <br />
+    <h5>Question liked:<span id="qstn-likes">@Model.Question.Likes.Count()</span></h5>
+    <br />
+    @if (Model.LoggedIn)
+    {
+        if (Model.CanLikeQuestion)
+        {
+
+    <button class="btn btn-primary" id="like-btn" data-user-id="@Model.Question.UserId" data-question-id="@Model.Question.Id">Like</button>
+        }
+        else
+        {
+        <button class="btn btn-primary" disabled>Like</button>
+        }
+
+    }
+</div>
+<div class="row" style="margin-top:20px">
+    @if (Model.LoggedIn)
+    {
+        <form method="post" action="/home/answer">
+            <textarea rows="7" class="form-control" name="text" placeholder="Post Your Answer...."></textarea>
+            <input type="hidden" name="userId" value="@Model.Question.UserId" />
+            <input type="hidden" name="questionId" value="@Model.Question.Id" />
+            <button class="btn btn-success" id="save-btn">Save</button>
+        </form>
+    }
+    @if (Model.Question.Answers != null)
+    {
+        @foreach (Answer answer in Model.Question.Answers)
+        {
+            <h3>@answer.Text</h3>
+            @*<h5>By: @answer.User.Email</h5>*@
+        }
+    }
+
+</div>
+
+@section Scripts
+{
+    <script src="~/js/question.js"></script>
+}

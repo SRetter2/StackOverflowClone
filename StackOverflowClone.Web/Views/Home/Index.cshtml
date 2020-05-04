@@ -1,0 +1,18 @@
+﻿@using StackOverflowClone.Data
+@model List<Question>
+
+@foreach (Question question in Model)
+{
+    <div class="well">
+        <h3><a href="/home/viewquestion?id=@question.Id">@question.Title</a></h3>
+        <br />
+        <ul>
+            @foreach (QuestionTag tag in question.QuestionTags)
+            {
+                <li>@tag.Tag.Name</li>
+            }
+        </ul>
+            <br />
+            <h4>Liked: @question.Likes.Count()</h4>
+        </div>
+}
